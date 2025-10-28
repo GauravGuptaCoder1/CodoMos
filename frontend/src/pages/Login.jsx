@@ -5,95 +5,60 @@ import {
   Heading,
   Input,
   Button,
-  Select,
   VStack,
-  Text,
   FormControl,
   FormLabel,
-  FormHelperText,
   useToast,
+  Link,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
+import api from "../api/client";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const toast = useToast();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    if (!role) {
+    try {
+      // Create form data as required by OAuth2PasswordRequestForm
+      const formData = new FormData();
+      formData.append("username", email); // OAuth2 uses 'username' field
+      formData.append("password", password);
+
+      const response = await api.post("/auth/login", formData, {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      });
+
+      const { access_token } = response.data;
+      localStorage.setItem("token", access_token);
+
+      // Fetch user details
+      const userResponse = await api.get("/users/me");
+      localStorage.setItem("user", JSON.stringify(userResponse.data));
+
       toast({
-        title: "Select a role",
-        status: "warning",
-        duration: 2000,
+        title: "Login Successful",
+        status: "success",
+        duration: 1500,
         isClosable: true,
       });
-      return;
-    }
-
-    if (role === "admin") {
-      if (email === "admin@cogniwork.dev" && password === "admin123") {
-        localStorage.setItem("token", "admin-token");
-        localStorage.setItem("role", "admin");
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            name: "Admin User",
-            email,
-            role: "admin",
-            projects: [],
-          })
-        );
-        toast({
-          title: "Admin Login Successful",
-          status: "success",
-          duration: 1500,
-          isClosable: true,
-        });
-        navigate("/admin/dashboard");
-      } else {
-        toast({
-          title: "Invalid Admin Credentials",
-          status: "error",
-          duration: 2000,
-          isClosable: true,
-        });
-      }
-    }
-
-    if (role === "employee") {
-      if (email && password) {
-        localStorage.setItem("token", "employee-token");
-        localStorage.setItem("role", "employee");
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            name: "Demo Employee",
-            email,
-            role: "employee",
-            projects: [{ name: "Demo Project", status: "planning" }],
-          })
-        );
-        toast({
-          title: "Employee Login Successful",
-          status: "success",
-          duration: 1500,
-          isClosable: true,
-        });
-        navigate("/employee/dashboard");
-      } else {
-        toast({
-          title: "Enter valid employee credentials",
-          status: "error",
-          duration: 2000,
-          isClosable: true,
-        });
-      }
+      navigate("/");
+    } catch (error) {
+      toast({
+        title: "Login Failed",
+        description: error.response?.data?.detail || "Invalid credentials",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -105,17 +70,10 @@ export default function Login() {
 
       <form onSubmit={handleLogin}>
         <VStack spacing={4}>
-          <FormControl id="role" isRequired>
-            <FormLabel>Select Role</FormLabel>
-            <Select placeholder="Select Role" value={role} onChange={(e) => setRole(e.target.value)}>
-              <option value="employee">Employee</option>
-              <option value="admin">Admin</option>
-            </Select>
-          </FormControl>
-
           <FormControl id="email" isRequired>
             <FormLabel>Email</FormLabel>
             <Input
+              type="email"
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -126,7 +84,7 @@ export default function Login() {
             <FormLabel>Password</FormLabel>
             <Input
               type="password"
-              placeholder="password"
+              placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -135,6 +93,10 @@ export default function Login() {
           <Button type="submit" width="full" colorScheme="blue" isLoading={loading}>
             Login
           </Button>
+
+          <Link as={RouterLink} to="/signup" color="blue.500" fontSize="sm">
+            Don't have an account? Sign up
+          </Link>
         </VStack>
       </form>
     </Box>

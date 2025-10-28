@@ -23,12 +23,16 @@ app.add_middleware(
 async def on_startup():
     # Initialize Mongo + Beanie
     await init_mongo()
-    # Seed admin if not exists
+    # Seed admin if not exists, or update password if it exists (to fix bcrypt truncation issue)
     admin_email = "admin@cogniwork.dev"
     existing = await User.find_one(User.email == admin_email)
     if not existing:
         admin = User(email=admin_email, full_name="Admin", role="admin", hashed_password=get_password_hash("admin"))
         await admin.insert()
+    else:
+        # Update password hash to ensure it's compatible with bcrypt 72-byte limit fix
+        existing.hashed_password = get_password_hash("admin")
+        await existing.save()
 
 
 @app.get("/")

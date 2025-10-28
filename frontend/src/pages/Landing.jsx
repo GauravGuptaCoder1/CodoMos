@@ -12,74 +12,133 @@ import {
   Icon,
   Image,
   Badge,
+  Flex,
+  Spacer,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { FaUsers, FaProjectDiagram, FaBrain } from "react-icons/fa";
 
 export default function Landing() {
   return (
-    <Box bg="gray.50" minH="100vh" pb={20}>
-      <Container maxW="container.xl" py={12}>
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={12} alignItems="center">
+    <Box bg="white" minH="100vh">
+      <Container maxW="container.xl" py={16}>
+        {/* Hero Section */}
+        <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={16} alignItems="center" mb={20}>
           {/* Hero left */}
-          <VStack align="start" spacing={6}>
-            <Badge colorScheme="blue" px={3} py={1} borderRadius="md">CogniWork (Demo)</Badge>
-            <Heading size="2xl" lineHeight="short">
+          <VStack align="start" spacing={8}>
+            <Heading 
+              size="3xl" 
+              lineHeight="shorter" 
+              color="blue.900"
+              fontWeight="bold"
+            >
               Unified AI for People, Projects & Product
             </Heading>
-            <Text fontSize="lg" color="gray.600" maxW="lg">
+            <Text 
+              fontSize="xl" 
+              color="gray.600" 
+              maxW="2xl"
+              lineHeight="tall"
+            >
               Streamline hiring, simulate product interviews, and manage projects with a single AI-powered
               interface. Built as a demo for the hackathon — fast to review, simple to extend.
             </Text>
 
-            <HStack spacing={4}>
-              <Button as={RouterLink} to="/employee-demo" colorScheme="blue" size="lg">
+            <HStack spacing={6} pt={4}>
+              <Button 
+                as={RouterLink} 
+                to="/login" 
+                colorScheme="blue" 
+                size="lg"
+                px={8}
+                py={6}
+                fontSize="lg"
+                fontWeight="semibold"
+                borderRadius="lg"
+                _hover={{
+                  transform: "translateY(-2px)",
+                  boxShadow: "xl"
+                }}
+                transition="all 0.2s"
+              >
                 View Employee Demo
               </Button>
-              <Button as={RouterLink} to="/login" variant="ghost" size="lg">
+              <Button 
+                as={RouterLink} 
+                to="/login" 
+                variant="ghost" 
+                size="lg"
+                fontSize="lg"
+                fontWeight="semibold"
+                color="gray.600"
+                _hover={{
+                  color: "blue.600",
+                  bg: "blue.50"
+                }}
+              >
                 Sign in
               </Button>
             </HStack>
 
-            <HStack spacing={4} pt={4}>
+            <HStack spacing={12} pt={8}>
               <Box>
-                <Text fontWeight="bold">Stack</Text>
-                <Text fontSize="sm" color="gray.500">FastAPI • React • Chakra UI • MongoDB</Text>
+                <Text fontWeight="bold" color="gray.800" mb={2}>Stack</Text>
+                <Text fontSize="md" color="gray.600">FastAPI • React • Chakra UI • MongoDB</Text>
               </Box>
               <Box>
-                <Text fontWeight="bold">Status</Text>
-                <Text fontSize="sm" color="gray.500">Demo-ready (no backend required for UI preview)</Text>
+                <Text fontWeight="bold" color="gray.800" mb={2}>Status</Text>
+                <Text fontSize="md" color="gray.600">Demo-ready (no backend required for UI preview)</Text>
               </Box>
             </HStack>
           </VStack>
 
           {/* Hero right - illustration */}
           <Box>
-            {/* If you have a screenshot, replace the Image src with its path */}
-            <Image
-              src="https://images.unsplash.com/photo-1581092580496-274f3d7f1b6b?w=1200&q=80&auto=format&fit=crop"
-              alt="dashboard screenshot"
-              borderRadius="lg"
-              boxShadow="lg"
-            />
+            <Box
+              bg="gray.100"
+              borderRadius="xl"
+              p={8}
+              textAlign="center"
+              minH="400px"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              border="2px dashed"
+              borderColor="gray.300"
+            >
+              <VStack spacing={4}>
+                <Icon as={FaProjectDiagram} w={16} h={16} color="gray.400" />
+                <Text color="gray.500" fontSize="lg" fontWeight="medium">
+                  Dashboard Screenshot
+                </Text>
+              </VStack>
+            </Box>
           </Box>
         </SimpleGrid>
 
-        {/* Features */}
-        <Box mt={16}>
-          <Heading size="lg" mb={6}>What it does</Heading>
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6}>
-            <Feature
+        {/* Features Section */}
+        <Box mt={24} mb={20}>
+          <Heading 
+            size="2xl" 
+            mb={12} 
+            textAlign="center"
+            color="blue.900"
+            fontWeight="bold"
+          >
+            What it does
+          </Heading>
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+            <FeatureCard
               icon={FaUsers}
               title="People & Hiring"
               desc="Auto-screen resumes, match candidates to roles, and save interviewer notes."
             />
-            <Feature
+            <FeatureCard
               icon={FaProjectDiagram}
               title="Project Management"
               desc="AI-assisted team building, task assignment and risk prediction."
             />
-            <Feature
+            <FeatureCard
               icon={FaBrain}
               title="Product Intelligence"
               desc="Simulate thousands of user interviews and connect market signals to product decisions."
@@ -87,34 +146,98 @@ export default function Landing() {
           </SimpleGrid>
         </Box>
 
-        {/* Callout */}
-        <Box mt={16} bg="white" p={8} borderRadius="md" boxShadow="sm">
-          <HStack spacing={8} align="center">
-            <Box flex="1">
-              <Heading size="md">Want to review quickly?</Heading>
-              <Text color="gray.600" mt={2}>
+        {/* Call to Action Section */}
+        <Box 
+          bg="gray.50" 
+          p={12} 
+          borderRadius="2xl" 
+          boxShadow="sm"
+          border="1px solid"
+          borderColor="gray.200"
+        >
+          <Flex align="center" direction={{ base: "column", md: "row" }} gap={8}>
+            <Box flex="1" textAlign={{ base: "center", md: "left" }}>
+              <Heading 
+                size="xl" 
+                color="blue.900"
+                fontWeight="bold"
+                mb={4}
+              >
+                Want to review quickly?
+              </Heading>
+              <Text 
+                color="gray.600" 
+                fontSize="lg"
+                maxW="md"
+              >
                 Use the <strong>Employee Demo</strong> link to preview the UI without running the backend.
               </Text>
             </Box>
-            <Button as={RouterLink} to="/employee-demo" colorScheme="blue" size="lg">
+            <Button 
+              as={RouterLink} 
+              to="/login" 
+              colorScheme="blue" 
+              size="lg"
+              px={8}
+              py={6}
+              fontSize="lg"
+              fontWeight="semibold"
+              borderRadius="lg"
+              _hover={{
+                transform: "translateY(-2px)",
+                boxShadow: "xl"
+              }}
+              transition="all 0.2s"
+            >
               Open demo
             </Button>
-          </HStack>
+          </Flex>
         </Box>
       </Container>
     </Box>
   );
 }
 
-/* small Feature subcomponent */
-function Feature({ icon: IconCmp, title, desc }) {
+/* Feature Card component */
+function FeatureCard({ icon: IconCmp, title, desc }) {
   return (
-    <HStack spacing={4} align="start" bg="white" p={5} borderRadius="md" boxShadow="sm">
-      <Icon as={IconCmp} w={7} h={7} color="blue.500" />
-      <Box>
-        <Text fontWeight="bold">{title}</Text>
-        <Text fontSize="sm" color="gray.600">{desc}</Text>
-      </Box>
-    </HStack>
+    <Box
+      bg="white"
+      p={8}
+      borderRadius="xl"
+      boxShadow="lg"
+      border="1px solid"
+      borderColor="gray.200"
+      textAlign="center"
+      _hover={{
+        transform: "translateY(-4px)",
+        boxShadow: "xl",
+        borderColor: "blue.200"
+      }}
+      transition="all 0.3s ease"
+    >
+      <Icon 
+        as={IconCmp} 
+        w={12} 
+        h={12} 
+        color="blue.500" 
+        mb={6}
+      />
+      <Heading 
+        size="lg" 
+        color="blue.900"
+        fontWeight="bold"
+        mb={4}
+      >
+        {title}
+      </Heading>
+      <Text 
+        fontSize="md" 
+        color="gray.600"
+        lineHeight="tall"
+      >
+        {desc}
+      </Text>
+    </Box>
   );
 }
