@@ -21,18 +21,29 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def on_startup():
+    import logging
+    logger = logging.getLogger("uvicorn")
+    
     # Initialize Mongo + Beanie
+    logger.info("Initializing MongoDB connection...")
     await init_mongo()
+    logger.info("MongoDB initialized successfully!")
+    
     # Seed admin if not exists, or update password if it exists (to fix bcrypt truncation issue)
+    logger.info("Seeding admin user...")
     admin_email = "admin@cogniwork.dev"
     existing = await User.find_one(User.email == admin_email)
     if not existing:
         admin = User(email=admin_email, full_name="Admin", role="admin", hashed_password=get_password_hash("admin"))
         await admin.insert()
+        logger.info("Admin user created!")
     else:
         # Update password hash to ensure it's compatible with bcrypt 72-byte limit fix
         existing.hashed_password = get_password_hash("admin")
         await existing.save()
+        logger.info("Admin user updated!")
+    
+    logger.info("Startup complete!")
 
 
 @app.get("/")

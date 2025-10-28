@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
+<<<<<<< HEAD
 import { 
   Box, Container, Heading, SimpleGrid, Spinner, useToast, Button, Card, CardBody, 
   CardHeader, Text, Badge, VStack, Flex, Stat, StatLabel, StatNumber, StatHelpText, 
   StatArrow, Progress, Tabs, TabList, TabPanels, Tab, TabPanel, Table, Thead, Tbody, 
   Tr, Th, Td, Alert, AlertIcon, Divider
 } from '@chakra-ui/react'
+=======
+import { Box, Container, Heading, SimpleGrid, Spinner, useToast, Button, HStack, Card, CardBody, Text, Badge, VStack, Flex } from '@chakra-ui/react'
+>>>>>>> 3299853d44db402591bd169a960cb3721d0ad883
 import api from '../api/client'
 import { Link } from 'react-router-dom'
 
@@ -86,6 +90,7 @@ export default function Dashboard() {
     return repos.filter(r => (r.project_ids || []).includes(projectId)).length
   }
 
+<<<<<<< HEAD
   const getStatusColor = (status) => {
     switch (status) {
       case "Completed": return "green"
@@ -96,11 +101,14 @@ export default function Dashboard() {
     }
   }
 
+=======
+>>>>>>> 3299853d44db402591bd169a960cb3721d0ad883
   if (loading) return (
     <Container maxW="6xl" py={8}><Spinner /></Container>
   )
 
   const activeProjects = projects.filter(p => p.status === 'active')
+<<<<<<< HEAD
 
   return (
     <Box bg="gray.50" minH="100vh">
@@ -531,6 +539,36 @@ export default function Dashboard() {
             </TabPanels>
           </Tabs>
         </VStack>
+=======
+
+  return (
+    <Box>
+      <Container maxW="6xl" py={8}>
+        <Flex justify="space-between" align="center" mb={6}>
+          <Heading size="lg">Your Projects</Heading>
+          <Button as={Link} to="/projects/new" colorScheme="blue">+ New Project</Button>
+        </Flex>
+
+        {activeProjects.length === 0 && (
+          <Card bg="blue.50" border="1px" borderColor="blue.200">
+            <CardBody>
+              <VStack spacing={3}>
+                <Text fontSize="lg" fontWeight="medium">No active projects yet</Text>
+                <Text fontSize="sm" color="gray.600">Create your first project to start tracking repos, PRs, and team XP.</Text>
+                <Button as={Link} to="/projects/new" colorScheme="blue" size="sm">Create Project</Button>
+              </VStack>
+            </CardBody>
+          </Card>
+        )}
+
+        {activeProjects.length > 0 && (
+          <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+            {activeProjects.map(proj => (
+              <ProjectCard key={proj.id} project={proj} repoCount={getRepoCount(proj.id)} />
+            ))}
+          </SimpleGrid>
+        )}
+>>>>>>> 3299853d44db402591bd169a960cb3721d0ad883
       </Container>
     </Box>
   )

@@ -33,8 +33,18 @@ _client: AsyncIOMotorClient | None = None
 
 async def init_mongo() -> None:
     global _client
-    _client = AsyncIOMotorClient(settings.MONGODB_URI)
+    _client = AsyncIOMotorClient(
+        settings.MONGODB_URI,
+        serverSelectionTimeoutMS=10000,
+        connectTimeoutMS=10000,
+        socketTimeoutMS=10000
+    )
     db = _client[settings.MONGODB_DB]
+    
+    # Test connection
+    await _client.admin.command('ping')
+    print("✓ MongoDB connected successfully")
+    
     await init_beanie(
         database=db,
         document_models=[
@@ -62,6 +72,7 @@ async def init_mongo() -> None:
             XPLeaderboard,
         ],
     )
+    print("✓ Beanie initialized successfully")
 
 
 def get_client() -> AsyncIOMotorClient:

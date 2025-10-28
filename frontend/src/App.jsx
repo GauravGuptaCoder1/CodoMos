@@ -170,8 +170,142 @@ export default function App() {
         }
       />
 
+<<<<<<< HEAD
       {/* ✅ Default redirect */}
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
+=======
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/candidates"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <Candidates />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/roles"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <Roles />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/projects"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <Projects />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/projects/new"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <ProjectNew />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/projects/:projectId"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <ProjectDetail />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/forms"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <Forms />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/forms/:id/edit"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <FormBuilder />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/forms/:id/responses"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <FormResponses />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/insights"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <RepositoryInsights />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <Users />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/users/:userId/profile"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <EmployeeProfile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/leaderboard"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <Leaderboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Box>
+>>>>>>> 3299853d44db402591bd169a960cb3721d0ad883
   )
 }

@@ -1,0 +1,10 @@
+Add Performance Management system and fix bcrypt login compatibility
+
+- Added comprehensive Performance Management tab with 360-degree reviews
+- Implemented One-on-One meeting tracking with action items
+- Added Performance Improvement Plans (PIPs) management
+- Added review cycles and scheduling system
+- Added performance trend analytics
+- Fixed bcrypt 5.0.0 compatibility by downgrading to 3.2.2
+- Auto-update admin password hash on startup for compatibility
+- Added meeting templates and historical logs
