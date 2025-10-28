@@ -1,8 +1,10 @@
 import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { Box } from '@chakra-ui/react'
+import { Box, Container } from '@chakra-ui/react'
 import Navbar from './components/Navbar'
 import ProtectedRoute from './components/ProtectedRoute'
+import ErrorBoundary from './components/ErrorBoundary'
+import Breadcrumbs from './components/Breadcrumbs'
 
 import Login from './pages/Login'
 import Signup from './pages/Signup'
@@ -21,14 +23,17 @@ import Settings from './pages/Settings'
 import Users from './pages/Users'
 import EmployeeProfile from './pages/EmployeeProfile'
 import Leaderboard from './pages/Leaderboard'
+import Profile from './pages/Profile'
+import Analytics from './pages/Analytics'
 
 export default function App() {
   return (
-    <Box minH="100vh">
-      <Routes>
+    <ErrorBoundary>
+      <Box minH="100vh">
+        <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/public/forms/:id" element={<PublicForm />} />
+        <Route path="/forms/public/:id" element={<PublicForm />} />
 
         <Route
           path="/"
@@ -168,8 +173,29 @@ export default function App() {
           }
         />
 
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <Analytics />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </Box>
+      </Box>
+    </ErrorBoundary>
   )
 }

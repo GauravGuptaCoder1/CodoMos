@@ -6,12 +6,12 @@ const theme = extendTheme({
     useSystemColorMode: false,
   },
   styles: {
-    global: {
+    global: (props) => ({
       body: {
-        bg: 'gray.50',
-        color: 'gray.800',
+        bg: props.colorMode === 'dark' ? 'gray.900' : 'gray.50',
+        color: props.colorMode === 'dark' ? 'white' : 'gray.800',
       },
-    },
+    }),
   },
   colors: {
     brand: {
